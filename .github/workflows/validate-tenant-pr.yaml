@@ -1,0 +1,22 @@
+name: Validate Tenant Request
+on:
+    pull_request:
+        paths:
+            - "app/demo-sandbox-chart/**"
+            - "app/tenant/**"
+jobs:
+    validate:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Gileaks secret scan
+              uses: gitleaks/gitleaks-action@v2
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Checkov IaC scan (Helm Chart)
+              uses: bridgecrewio/checkov-action@master
+              with:
+                  directory: app/demo-sandbox-chart
+                  framework: helm
