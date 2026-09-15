@@ -1,0 +1,5 @@
+# tenants/tenant-d.yaml
+
+tenantName: tenant-d
+tenantHost: tenant-d.demo.local
+imageTag: v2
