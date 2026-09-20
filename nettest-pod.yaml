@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: nettest
-  namespace: tenant-a
+  namespace: tenant-x
 spec:
   restartPolicy: Never
   containers:
