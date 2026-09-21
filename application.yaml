@@ -7,7 +7,11 @@ spec:
   project : default
   source:   ## The source of the application, which can be a Git repository, Helm chart, Kustomize directory, or other supported sources.
     repoURL: https://github.com/zmanjith/etb169-sandbox-plaform.git
+<<<<<<< HEAD
     targetRevision: master ## From where we are tking the yaml or manifest files. It can be a branch, tag, or commit.
+=======
+    targetRevision: HEAD ## From where we are tking the yaml or manifest files. It can be a branch, tag, or commit.
+>>>>>>> c734cf4 (test2)
     path: app/demo-sandbox-chart/nettest-pod.yaml
   destination:  ## The destination cluster and namespace where the application will be deployed.
     server: https://kubernetes.default.svc
