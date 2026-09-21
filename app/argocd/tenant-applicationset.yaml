@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: tenant-sandboxes
+  namespace: argocd
+spec:
+  generators:   ## For automatically generating the Applications using parameters. Here "git genearator" used
+  - git:
+      repoURL: https://github.com/zmanjith/etb169-sandbox-plaform.git
+      revision : add-tenant
+      files:
+       - path: "app/tenants/*.yaml"
+  template:
+    metadata:
+      name: '{tenantName}'
+    spec:
+      project: default
+      source:   ## Source where we trigger the application to be generated and deployed to destination.
+        repoURL: https://github.com/zmanjith/etb169-sandbox-plaform.git
+        targetRevision: add-tenant
+        path: "app/tenants/*.yaml"
+        helm:
+         parameters:
+          - name: tenantName
+            value: '{{tenantName}}'
+          - name: tenantHost
+            value: '{{tenantHost}}'
+          - name: image.tag
+            value: '{{imageTag}}'
+      destination: ## Destination where we are going to deploy the application. Here its to the Kubernetes Cluster.
+        server: https://kubernetes.default.svc
+        namespace: '{{tenantName}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
