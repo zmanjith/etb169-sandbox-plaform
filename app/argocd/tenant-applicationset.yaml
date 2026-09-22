@@ -8,17 +8,17 @@ spec:
   - git:
       repoURL: https://github.com/zmanjith/etb169-sandbox-plaform.git
       revision : add-tenant
-      directories:
-       - path: "app/tenants/*"
+      files:
+       - path: "app/tenants/*.yaml"
   template:
     metadata:
-      name: '{tenantName}'
+      name: '{{tenantName}}'
     spec:
       project: default
       source:   ## Source where we trigger the application to be generated and deployed to destination.
         repoURL: https://github.com/zmanjith/etb169-sandbox-plaform.git
         targetRevision: add-tenant
-        path: "app/tenants/*"
+        path: app/demo-sandbox-chart
         helm:
          parameters:
           - name: tenantName
