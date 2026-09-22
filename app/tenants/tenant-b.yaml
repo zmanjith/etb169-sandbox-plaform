@@ -1,5 +1,5 @@
-# tenants/tenant-b.yaml
+# tenants/tenant-e.yaml
 
-tenantName: tenant-b
-tenantHost: tenant-b.demo.local
+tenantName: tenant-e
+tenantHost: tenant-e.demo.local
 imageTag: v2
