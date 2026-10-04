@@ -111,6 +111,18 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
+# database configuration
+db: 
+  host: pg-shared-postgresql.platform.svc.cluster.local
+  port: 5432
+  name: sandbox
+  adminSecretName: pg-shared-postgresql
+  adminSecretNamespace: platform
+dbPassword: ""  # overridden by tenant secret
+ 
+
+
+
 # Additional volumes on the output Deployment definition.
 volumes: []
 # - name: foo

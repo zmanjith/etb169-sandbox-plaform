@@ -3,3 +3,4 @@
 tenantName: tenant-a
 tenantHost: tenant-a.demo.local
 imageTag: v2
+dbPassword: tenantapass123

@@ -1,5 +1,6 @@
-# tenants/tenant-e.yaml
+# tenants/tenant-b.yaml
 
-tenantName: tenant-e
-tenantHost: tenant-e.demo.local
+tenantName: tenant-b
+tenantHost: tenant-b.demo.local
 imageTag: v2
+dbPassword: tenantapass123

@@ -1,0 +1,40 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-db-provision
+  namespace: {{ .Values.db.adminSecretNamespace }}
+  annotations:
+    helm.sh/hook: pre-install, pre-upgrade
+    helm.sh/hook-weight: "-5"  # to decide priority of execution if more than one hooks there
+    helm.sh/hook-delete-policy: before-hook-creation, hook-succeeded
+  spec:
+    backoffLimit: 3  # limits the number of retries before marking this job as failed. Default is 6. 
+    template:
+      spec:
+        restartPolicy: Never
+        containers:
+          - name: provision
+            image: postres:16-alpine
+            env:
+              - name: PGPASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: {{ .Values.db.adminSecretName }}
+                    key: postgres-password
+              - name: TENANT_PASSWORD
+                value: {{ .Values.dbPassword | quote}}
+            command: ["sh", "-c"]
+            args:
+              - |
+                psql -h {{ .Values.dh.host }} -U postgres -d {{.Values.db.name }} <<SQL
+                CREATE SCHEMA IF NOT EXISTS "{{ .Values.tenantName }}";
+                DO \$\$ BEGIN
+                  IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = '{{ .Values.tenantName }}_app') THEN
+                    CREATE USER "{{ .Values.tenantName }}_app" WITH PASSWORD '${TENANT_PASSWORD}';
+                  ELSE
+                    ALTER USER "{{ .Values.tenantName }}_app" WITH PASSWORD '${TENANT_PASSWORD}';
+                  END IF;
+                END \$\$;
+                GRANT ALL ON SCHEMA "{{ .Values.tenantName }}" TO "{{ .Values.tenantName }}_app";
+                ALTER ROLE "{{ .Values.tenantName }}_app" SET search_path TO "{{ .Values.tenantName }}";
+                SQL
