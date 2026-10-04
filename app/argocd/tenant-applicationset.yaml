@@ -8,17 +8,20 @@ spec:
   - git:
       repoURL: https://github.com/zmanjith/etb169-sandbox-plaform.git
       revision : add-tenant
-      directories:
-       - path: "app/tenants/*"
+      files:
+       - path: "app/tenants/*.yaml"
   template:
     metadata:
-      name: '{tenantName}'
+      name: '{{tenantName}}'
     spec:
-      project: default
+      project: default  # This is the ArgoCD project where the application will be created. 
+                      # the built-in default AppProject ships wide open (* server, * namespace) — it imposes zero restriction.
+                      # You can create your own AppProject to restrict the access to specific clusters and namespaces.
+                      # Since its default project, it can deploy to any cluster and namespace. 
       source:   ## Source where we trigger the application to be generated and deployed to destination.
         repoURL: https://github.com/zmanjith/etb169-sandbox-plaform.git
-        targetRevision: add-tenant
-        path: "app/tenants/*"
+        targetRevision: HEAD
+        path: app/demo-sandbox-chart
         helm:
          parameters:
           - name: tenantName
@@ -27,6 +30,8 @@ spec:
             value: '{{tenantHost}}'
           - name: image.tag
             value: '{{imageTag}}'
+          - name: dbPassword
+            value: '{{dbPassword}}'
       destination: ## Destination where we are going to deploy the application. Here its to the Kubernetes Cluster.
         server: https://kubernetes.default.svc
         namespace: '{{tenantName}}'
