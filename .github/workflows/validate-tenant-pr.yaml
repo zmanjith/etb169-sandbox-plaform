@@ -22,3 +22,4 @@ jobs:
               with:
                   directory: app/demo-sandbox-chart
                   framework: helm
+                  helm-values: app/demo-sandbox-chart/values.yaml
