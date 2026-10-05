@@ -22,7 +22,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 8 }}
+            {{- toYaml .Values.securityContext | nindent 12 }}
           ports:
             - containerPort: 5000
           resources:
