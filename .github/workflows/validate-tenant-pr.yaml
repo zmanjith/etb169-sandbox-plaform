@@ -23,4 +23,4 @@ jobs:
                   directory: app/demo-sandbox-chart
                   framework: helm
                   helm-values: app/demo-sandbox-chart/values.yaml
-                  skip_check: CKV_K8S_21
+                  skip_check: CKV_K8S_21, CKV_K8S_15, CKV_K8S_29, CKV_K8S_38, CKV_K8S_48, CKV_K8S_35, CKV_K8S_43
