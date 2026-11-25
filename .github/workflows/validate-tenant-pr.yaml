@@ -1,14 +1,29 @@
 name: Validate Tenant Request
 on:
+
+    #validate the changes and pushed to the add-tenant branch, which is development branch
+    push:
+        branches:
+            - add-tenant
+        paths:
+            - "app/demo-sandbox-chart/**"
+            - "app/tenants/**"
+    #validate the whole changes when a pull request is created to the add-tenant branch, which is development branch
+    #integrating the to the main branch.
     pull_request:
+        branches:
+            - add-tenant
         paths:
             - "app/demo-sandbox-chart/**"
             - "app/tenants/**"
 jobs:
     validate:
+        name: Validate Helm Chart and Tenant Values
         runs-on: ubuntu-latest
+
         steps:
-            - uses: actions/checkout@v4
+            - name: Checkout repository
+              uses: actions/checkout@v4
               with:
                   fetch-depth: 0
 

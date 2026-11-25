@@ -1,0 +1,6 @@
+# tenants/tenant-e.yaml
+
+tenantName: tenant-g
+tenantHost: tenant-g.demo.local
+imageTag: v2
+dbPassword: tenantapass123
