@@ -3,8 +3,19 @@ kind: ApplicationSet
 metadata:
   name: tenant-sandboxes
   namespace: argocd
+
 spec:
-  generators:   ## For automatically generating the Applications using parameters. Here "git genearator" used
+
+        # tells the ApplicationSet controller to interpret template expressions using Go's text/template engine.
+  goTemplate: true
+  goTemplateOptions:
+    - missingkey=error
+        # Without strict missing-key handling, an undefined field might silently become an empty value.
+        # With missingkey=error, the controller reports the missing field instead. This helps catch configuration mistakes early
+
+
+        ## For automatically generating the Applications using parameters. Here "git genearator" used     
+  generators:   
   - git:
       repoURL: https://github.com/zmanjith/etb169-sandbox-plaform.git
       revision : add-tenant
@@ -12,7 +23,8 @@ spec:
        - path: "app/tenants/*.yaml"
   template:
     metadata:
-      name: '{{tenantName}}'
+      name: '{{.tenantName}}'
+
     spec:
       project: default  # This is the ArgoCD project where the application will be created. 
                       # the built-in default AppProject ships wide open (* server, * namespace) — it imposes zero restriction.
@@ -20,21 +32,22 @@ spec:
                       # Since its default project, it can deploy to any cluster and namespace. 
       source:   ## Source where we trigger the application to be generated and deployed to destination.
         repoURL: https://github.com/zmanjith/etb169-sandbox-plaform.git
-        targetRevision: HEAD
+        targetRevision: add-tenant
         path: app/demo-sandbox-chart
+
         helm:
          parameters:
           - name: tenantName
-            value: '{{tenantName}}'
+            value: '{{.tenantName}}'
           - name: tenantHost
-            value: '{{tenantHost}}'
+            value: '{{.tenantHost}}'
           - name: image.tag
-            value: '{{imageTag}}'
+            value: '{{.imageTag}}'
           - name: dbPassword
-            value: '{{dbPassword}}'
+            value: '{{.dbPassword}}'
       destination: ## Destination where we are going to deploy the application. Here its to the Kubernetes Cluster.
         server: https://kubernetes.default.svc
-        namespace: '{{tenantName}}'
+        namespace: '{{.tenantName}}'
       syncPolicy:
         automated:
           prune: true
