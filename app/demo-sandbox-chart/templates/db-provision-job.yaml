@@ -17,7 +17,7 @@ spec:
         - name: provision
           image: postgres:16-alpine
           automountServiceAccountToken: false
-          imagePullPolicy: if-not-present
+          imagePullPolicy: IfNotPresent
           securityContext:
             runAsNonRoot: true
             runAsUser: 10001
