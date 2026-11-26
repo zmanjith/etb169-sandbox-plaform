@@ -1,0 +1,26 @@
+[1mdiff --git a/app/demo-sandbox-chart/templates/db-provision-job.yaml b/app/demo-sandbox-chart/templates/db-provision-job.yaml[m
+[1mindex 266c684..baadc64 100644[m
+[1m--- a/app/demo-sandbox-chart/templates/db-provision-job.yaml[m
+[1m+++ b/app/demo-sandbox-chart/templates/db-provision-job.yaml[m
+[36m@@ -17,7 +17,7 @@[m [mspec:[m
+         - name: provision[m
+           image: postgres:16-alpine[m
+           automountServiceAccountToken: false[m
+[31m-          imagePullPolicy: if-not-present[m
+[32m+[m[32m          imagePullPolicy: IfNotPresent[m
+           securityContext:[m
+             runAsNonRoot: true[m
+             runAsUser: 10001[m
+[1mdiff --git a/app/demo-sandbox-chart/values.yaml b/app/demo-sandbox-chart/values.yaml[m
+[1mindex 48b633e..9790dbd 100644[m
+[1m--- a/app/demo-sandbox-chart/values.yaml[m
+[1m+++ b/app/demo-sandbox-chart/values.yaml[m
+[36m@@ -11,7 +11,7 @@[m [mreplicaCount: 1[m
+ image:[m
+   repository: demo-sandbox-app[m
+   # This sets the pull policy for images.[m
+[31m-  pullPolicy: if-not-present  [m
+[32m+[m[32m  pullPolicy: IfNotPresent[m[41m  [m
+   # Overrides the image tag whose default is the chart appVersion.[m
+   tag: "v1"[m
+ [m
