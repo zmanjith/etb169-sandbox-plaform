@@ -12,6 +12,7 @@ image:
   repository: demo-sandbox-app
   # This sets the pull policy for images.
   pullPolicy: IfNotPresent  
+
   # Overrides the image tag whose default is the chart appVersion.
   tag: "v1"
 
